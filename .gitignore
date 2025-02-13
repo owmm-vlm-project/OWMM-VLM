@@ -115,6 +115,9 @@ dataset_generation/habitat-lab/habitat-baselines/habitat_baselines/config/overri
 dataset_generation/habitat-lab/habitat-lab/habitat/config/benchmark/single_agent/override/
 dataset_generation/habitat-lab/habitat-baselines/habitat_baselines/config/social_rearrange/*.yaml
 dataset_generation/habitat-lab/habitat-mas/habitat_mas/data
+dataset_generation/habitat-lab/tb
+dataset_generation/habitat-lab/outputs
+dataset_generation/habitat-lab/logs
 # Scene and dataset files
 
 

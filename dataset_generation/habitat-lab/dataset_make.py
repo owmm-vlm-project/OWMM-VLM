@@ -83,8 +83,6 @@ def run_script(args):
     time.sleep(0.7)
     process_directory(os.path.join(base_directory,scene,file_path),skip_len=skip_len)
     print("finish_trans",flush=True)
-    # sample_info = datatrans_2_end_single_agent_waypoint(process_dir=f"{scene}/{file_path}",skip_len = skip_len,sample_clip=max_step)
-    # sample_info = run_with_timeout(datatrans_2_end_single_agent_waypoint, process_dir=f"{scene}/{file_path}", skip_len=skip_len, sample_clip=max_step,timeout=3,retries=2,data_name=file_path)
     flag = 0
     with ThreadPoolExecutor() as executor:
         future_set = executor.submit(datatrans_2_end_sat_waypoint_closer, process_dir=f"./{base_directory}/{scene}/{file_path}", skip_len=skip_len, sample_clip=max_step)
@@ -92,7 +90,6 @@ def run_script(args):
             result = future_set.result(timeout=10)
             sample_info = result
         except:
-            # print(f"break:{file_path}",flush=True)
             return (False, -1)
     if len(sample_info)==0 or sample_info == -1:
         print(f"no sample_info,Exiting process,from{file_path}")
@@ -140,6 +137,7 @@ def parse_arguments():
     parser.add_argument('--sum_episode', type=int, default=400, help='Total number of episodes')
     parser.add_argument('--epnum_per_gz', type=int, default=4, help='Number of episodes per gz')
     parser.add_argument('--gz_start', type=int, default=40, help='Starting gz index')
+    parser.add_argument('--gz_end', type=int, default=50, help='Try Time')
     parser.add_argument('--skip_len', type=int, default=27, help='Length to skip')
     parser.add_argument('--base_directory', type=str, default='DATASET_YCB_0109', help='Base directory name')
     parser.add_argument('--process_num', type=int, default=10, help='Number of processes')
@@ -147,7 +145,6 @@ def parse_arguments():
     parser.add_argument('--max_step', type=int, default=800, help='Maximum number of steps')
     parser.add_argument('--jump_gz', type=int, default=13, help='Jump gz value')
     parser.add_argument('--repeat_time', type=int, default=1, help='Repeat time')
-    parser.add_argument('--gz_end', type=int, default=50, help='Try Time')
     parser.add_argument('--scene_dataset_dir', type=str, default='hssd_scene_allycb_train_2', help='Scene dataset directory')
     parser.add_argument('--sample_scene', type=str, nargs='+', default=["106878960_174887073","108736851_177263586","108736824_177263559","107734254_176000121"], help='Sample scenes')
     parser.add_argument('--timeout', type=int, default=800, help='Sampling timeout setting')
@@ -165,8 +162,8 @@ if __name__ == "__main__":
     scene_dataset_dir = dp_config.scene_dataset_dir
     gz_start_gz = dp_config.gz_start
     gz_end = dp_config.gz_end
-    base_directory = f"./{dp_config.base_directory}_{gz_start_gz}_{random_number}"
     base_dir_name = f"{dp_config.base_directory}_{gz_start_gz}_{random_number}"
+    base_dir_path = f"./{dp_config.base_directory}_{gz_start_gz}_{random_number}"
     sum_episode = dp_config.sum_episode
     epnum_per_gz = dp_config.epnum_per_gz
     gz_sum = int(sum_episode/epnum_per_gz)
@@ -201,10 +198,11 @@ if __name__ == "__main__":
         for scene in sample_scene_dir:
             gz_start = process_num*it
             zip_files = [(f"data_{i}.json.gz", int(i % gpu_num)) for i in range(gz_start_gz+gz_start,gz_start_gz+gz_start+process_num)]
+            time.sleep(1.0)
             print(f"START--{scene}--{it*process_num}/{num_gz}--dir:{base_dir_name}")
             start_time = time.time()
             with multiprocessing.Pool(processes=process_num) as pool:
-                args = [(file_path, skip_len, base_directory, gpu_id, scene, scene_dataset_dir) for file_path, gpu_id in zip_files]
+                args = [(file_path, skip_len, base_dir_path, gpu_id, scene, scene_dataset_dir) for file_path, gpu_id in zip_files]
                 results = []
                 async_results = [pool.apply_async(run_script, (arg,), error_callback=lambda e: print(f"Error: {e}")) for arg in args]
                 timer = Timer(dp_config.timeout, terminate_pool, [pool])
