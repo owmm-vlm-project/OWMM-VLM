@@ -37,7 +37,7 @@ For the dependencies required for model fine-tuning and deployment, please refer
 
 ## Usage
 
-For dataset generation and simulator evaluation, Please follow the instructions in [dataset_generation](./dataset_generation/README.md). After sampling dataset from dataset generation, please refer to the instructions in [dataset_annotation](./dataset_annotation/README.md) to obtain annotated datasets. For step evaluation, please follow the instructions in [step_evaluation](./dataset_evalutation/README.md).
+For dataset generation and simulator evaluation, Please follow the instructions in [sim](./sim/README.md). After sampling dataset from dataset generation, please refer to the instructions in [dataset_annotation](./dataset_annotation/README.md) to obtain annotated datasets. For step evaluation, please follow the instructions in [step_evaluation](./dataset_evalutation/README.md).
 
 ## Credit
 
