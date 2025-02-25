@@ -96,8 +96,8 @@ def run_script(args):
         return (False, 0)
     sample = str(sample_info)
     print(f"{file_path}'s sample:",sample)
-    zxz_yaml_path = './habitat-lab/habitat/config/benchmark/single_agent/zxz_fetch_sample.yaml'
-    with open(zxz_yaml_path,'r') as file:
+    sample_yaml_path = './habitat-lab/habitat/config/benchmark/single_agent/fetch_sample.yaml'
+    with open(sample_yaml_path,'r') as file:
         data = yaml.load(file)
     data['habitat']['dataset']['data_path'] = f"data/datasets/{scene_dataset_dir}/{scene}/{file_path}"
     data['habitat']['simulator']['habitat_sim_v0']['gpu_device_id'] = gpu_id

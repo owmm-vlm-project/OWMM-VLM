@@ -113,7 +113,7 @@ video_*/
 
 sim/habitat-lab/habitat-baselines/habitat_baselines/config/override/**
 sim/habitat-lab/habitat-lab/habitat/config/benchmark/single_agent/override/
-sim/habitat-lab/habitat-baselines/habitat_baselines/config/social_rearrange/*.yaml
+sim/habitat-lab/habitat-baselines/habitat_baselines/config/social_rearrange/override
 sim/habitat-lab/habitat-mas/habitat_mas/data
 sim/habitat-lab/tb
 sim/habitat-lab/outputs
